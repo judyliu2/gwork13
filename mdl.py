@@ -203,7 +203,7 @@ def p_command_tetrahedron(p):
     commands.append(cmd)
     
 def p_command_cylinder(p):
-    #            CYLINDER radius height x      y      z
+    #            CYLINDER x      y      z      radius height
     """command : CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER
                | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
                | CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
@@ -221,7 +221,7 @@ def p_command_cylinder(p):
     comnands.append(cmd)
 
 def p_command_cone(p):
-    #            CONE radius height x      y      z
+    #            CONE x      y      z      radius height
     """command : CONE NUMBER NUMBER NUMBER NUMBER NUMBER
                | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
                | CONE NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
