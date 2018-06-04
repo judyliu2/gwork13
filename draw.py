@@ -237,6 +237,13 @@ def generate_torus( cx, cy, cz, r0, r1, step ):
             points.append([x, y, z])
     return points
 
+def add_pyramid( edges, x, y, z, height, width):
+def add_tetrahedron( edges, x, y, z, d1, d2, d3):
+def generate_cylinder (x, y, z, radius, height,step):
+def generate_cone( x, y, z, radius, height,step):
+def add_cylinder (edges, x, y, z, radius, height,step):
+def add_cone(edges, x, y, z, radius, height,step):
+
 def add_circle( points, cx, cy, cz, r, step ):
     x0 = r + cx
     y0 = cy
