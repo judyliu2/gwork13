@@ -237,12 +237,52 @@ def generate_torus( cx, cy, cz, r0, r1, step ):
             points.append([x, y, z])
     return points
 
-def add_pyramid( edges, x, y, z, height, width):
-def add_tetrahedron( edges, x, y, z, d1, d2, d3):
+def add_pyramid(polygonss, x, y, z, height, width):
+    x1 = x + width
+    y1 = y + height
+    z1 = z - width
+
+    #base
+    add_polygon( polygons, x, y, z, x, y, z1, x1, y, z1)
+    add_polygon( polygons, x, y, z, x1, y ,z ,x1, y, z1)
+    
+    #sides
+    add_polygon( polygons, x, y, z, x, y ,z1, x+width/2, y1, z-width/2)
+    add_polygon( polygons, x, y, z1, x1, y, z1, x+width/2, y1, z-width/2)
+    add_polygon( polygon, x1, y, z1, x1, y, z, x+width/2, y1, z-width/2)
+    add_polygon( polygon, x1, y, z, x, y, z, x+width/2, y1, z-width/2)
+                      
+def add_tetrahedron( polygons, x, y, z, dx, dy, dz):
+    x1 = x + dx
+    y1 = y + dy
+    z1 = z + dz
+
+    #bottom
+    add_polygon( polygon, x, y, z, x1, y, z+dz/2, x-dx/2, y, z1)
+    #sides
+    add_polygon( polygon, x, y, z, x+dx/2, y1, z+dz/2, x-dx/2, y, z1)
+    add_polygon( polygon, x, y, z, x+dx/2, y1, z+dz/2, x1, y, z+dz/2)
+    #back
+    add_polygon( polygon, x1, y, z+dz/2, x-dx/2, y, z1, x+dx/2, y1, z+dz/2)
+    
 def generate_cylinder (x, y, z, radius, height,step):
+    #add circle 2x with difrerent heights
+    
 def generate_cone( x, y, z, radius, height,step):
+    #CONE IS SIDEWAYS
+    #add point
+    #add circle
+    points = []
+    points.append([x,y,z+height])
+    points.append([x,y,z]) #pizza
+    add_circle(points, x, y, z, radius, step)
+    return points
+    
 def add_cylinder (edges, x, y, z, radius, height,step):
+    #2 for loops, one for each circle
+    
 def add_cone(edges, x, y, z, radius, height,step):
+    
 
 def add_circle( points, cx, cy, cz, r, step ):
     x0 = r + cx
