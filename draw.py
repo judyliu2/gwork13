@@ -267,6 +267,9 @@ def add_tetrahedron( polygons, x, y, z, dx, dy, dz):
     
 def generate_cylinder (x, y, z, radius, height,step):
     #add circle 2x with difrerent heights
+    points = []
+    add_circle(points, x, y, z, radius, step)
+    add_circle(points, x, y, z+height, radius, step)
     
 def generate_cone( x, y, z, radius, height,step):
     #CONE IS SIDEWAYS
@@ -280,8 +283,10 @@ def generate_cone( x, y, z, radius, height,step):
     
 def add_cylinder (edges, x, y, z, radius, height,step):
     #2 for loops, one for each circle
+    points = generate_cylinder(x,y,z,radius, height,step)
     
 def add_cone(edges, x, y, z, radius, height,step):
+    points =  generate_cone(x,y,z, radius, height,step)
     
 
 def add_circle( points, cx, cy, cz, r, step ):
