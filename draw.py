@@ -252,41 +252,73 @@ def add_pyramid(polygonss, x, y, z, height, width):
     add_polygon( polygon, x1, y, z1, x1, y, z, x+width/2, y1, z-width/2)
     add_polygon( polygon, x1, y, z, x, y, z, x+width/2, y1, z-width/2)
                       
-def add_tetrahedron( polygons, x, y, z, dx, dy, dz):
-    x1 = x + dx
-    y1 = y + dy
-    z1 = z + dz
-
+def add_tetrahedron( polygons, x, y, z, a):
+    h = int(y + int(a*sqrt(3) / 2))
+    x1 = x + a/2
+    y1 = y + h
+    y2 = y + int(h/3)
+    z1 = z + int(h/3)
+    z2 = z + h
+    #front
+    add_polygon( polygon, x, y, z, x+a, y, z, x1, y1, z1)
     #bottom
-    add_polygon( polygon, x, y, z, x1, y, z+dz/2, x-dx/2, y, z1)
+    add_polygon( polygon, x, y, z, x+a, y, z, x1, y2, y2)
     #sides
-    add_polygon( polygon, x, y, z, x+dx/2, y1, z+dz/2, x-dx/2, y, z1)
-    add_polygon( polygon, x, y, z, x+dx/2, y1, z+dz/2, x1, y, z+dz/2)
-    #back
-    add_polygon( polygon, x1, y, z+dz/2, x-dx/2, y, z1, x+dx/2, y1, z+dz/2)
+    add_polygon( polygon, x, y, z, x1, y1, z1, x1, y2, z2) 
+    add_polygon( polygon, x+a, y, z, x1, y1, z1, x1, y2, z2)
     
-def generate_cylinder (x, y, z, radius, height,step):
-    #add circle 2x with difrerent heights
-    points = []
-    add_circle(points, x, y, z, radius, step)
-    add_circle(points, x, y, z+height, radius, step)
     
-def generate_cone( x, y, z, radius, height,step):
-    #CONE IS SIDEWAYS
-    #add point
-    #add circle
-    points = []
-    points.append([x,y,z+height])
-    points.append([x,y,z]) #pizza
-    add_circle(points, x, y, z, radius, step)
-    return points
-    
-def add_cylinder (edges, x, y, z, radius, height,step):
+
+def add_cylinder(edges, x, y, z, radius, height,step):
     #2 for loops, one for each circle
-    points = generate_cylinder(x,y,z,radius, height,step)
+    bot_points = []
+    #bot_points.append([x,y,z])
+    add_circle(bot_points, x, y, z, radius, step)
+    top_points = []
+    #top_points.append([x,y,z+height])
+    add_circle(bot_points, x, y, z+height, radius, step)
+
+    #pizza
+
+    #when ends meet
+    #top
+    draw_polygon(top_points[0][0],top_points[0][1],top_points[0][2],top_points[-1][0],top_points[-1][1],top_points[-1][2],x,y+height,z)
+    #bot
+    draw_polygons(x, y, z, bot_points[0][0], bot_points[0][1],bot_points[0][2], bot_points[-1][0],bot_points[-1][1],bot_points[-1][2])
     
+    for points in range (0, step):
+        draw_polygon(x, y ,z, bot_points[points][0], bot_points[points][1],bot_points[points][2],bot_points[points+1][0],bot_points[points+1][1],bot_points[points+1][2])
+
+    for points in range (0, step):
+        draw_polygon(x, y+height ,z, top_points[points][0], top_points[points][1],top_points[points][2],top_points[points+1][0]top_points[points+1][1],top_points[points+1][2])
+
+    #when ends meet
+    draw_polygon(top_points[0][0],top_points[0][1],top_points[0][2],top_points[-1][0],top_points[-1][1],top_points[-1][2],bot_points[0][0], bot_points[0][1],bot_points[0][2])
+    draw_polygons(top_points[-1][0],top_points[-1][1],top_points[-1][2],bot_points[0][0], bot_points[0][1],bot_points[0][2], bot_points[-1][0],bot_points[-1][1],bot_points[-1][2])
+
+    #triangles along the side
+    for bpoints in range(0,step):
+        for tpoints in range (0,step):
+            draw_polygon(top_points[tpoints][0],top_points[tpoints][1],top_points[tpoints][2],top_points[tpoints+1][0],top_points[tpoints+1][1],top_points[tpoints+1][2],bot_points[bpoints+1][0], bot_points[bpoints+1][1],bot_points[bpoints+1][2])
+            
+    draw_polygons(top_points[tpoints][0],top_points[tpoints][1],top_points[tpoints][2],bot_points[bpoints][0], bot_points[bpoints][1],bot_points[bpoints][2], bot_points[bpoints+1][0],bot_points[bpoints+1][1],bot_points[bpoints+1][2],)
+
+        
 def add_cone(edges, x, y, z, radius, height,step):
-    points =  generate_cone(x,y,z, radius, height,step)
+    #CONE IS SIDEWAYS   
+    bot_points = []
+    add_circle(bot_points, x, y, z, radius, step) #pizza
+    #pointy shape
+    draw_polygon( x, y+height, z,  bot_points[0][0], bot_points[0][1],bot_points[0][2],bot_points[-1][0],bot_points[-1][1],bot_points[-1][2])
+    for points in range (0, step):
+        draw_polygon(x, y+height ,z, bot_points[points][0], bot_points[points][1],bot_points[points][2],bot_points[points+1][0],bot_points[points+1][1],bot_points[points+1][2])
+
+    #filled circle
+    draw_polygon( x, y,  bot_points[0][0], bot_points[0][1],bot_points[0][2],bot_points[-1][0],bot_points[-1][1],bot_points[-1][2])
+    for points in range (0, step):
+        draw_polygon(x, y ,z, bot_points[points][0], bot_points[points][1],bot_points[points][2],bot_points[points+1][0],bot_points[points+1][1],bot_points[points+1][2])
+
+
     
 
 def add_circle( points, cx, cy, cz, r, step ):
