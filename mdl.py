@@ -19,6 +19,7 @@ tokens = (
     "CYLINDER",
     "PYRAMID",
     "TETRAHEDRON",
+    "TRUNCATED_CONE",
     "LINE", 
     "MESH", 
     "TEXTURE", 
@@ -58,6 +59,11 @@ reserved = {
     "torus" : "TORUS",
     "sphere" : "SPHERE",
     "box" : "BOX",
+    "cylinder" : "CYLINDER",
+    "cone" : "CONE",
+    "pyramid" : "PYRAMID",
+    "tetrahedron" : "TETRAHEDRON",
+    "truncated_cone":"TRUNCATED_CONE",
     "line" : "LINE",
     "mesh" : "MESH",
     "texture" : "TEXTURE",
@@ -172,7 +178,7 @@ def p_command_pyramid(p):
                | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
                | PYRAMID NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
                | PYRAMID SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {op: p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
     arg_start = 2
     if isinstance(p[2],str):
         cmd['constants'] = p[2]
@@ -182,14 +188,14 @@ def p_command_pyramid(p):
     if len(p) == 9 and isinstance(p[8],str):
         cmd['cs'] = p[8]
     cmd['args'] = p[arg_start:arg_start+5]
-    comnands.append(cmd)
+    commands.append(cmd)
     
 def p_command_tetrahedron(p):
-    #            tetrahedron x y z d1 d2 d3
-    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
-               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
-               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    #            tetrahedron x y z d1
+    """command : TETRAHEDRON NUMBER NUMBER NUMBER NUMBER
+               | TETRAHEDRON NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER 
+               | TETRAHEDRON SYMBOL NUMBER NUMBER NUMBER NUMBER SYMBOL"""
     cmd = {'op' : p[1], 'constants' : None, 'cs' : None, 'args':[]}
     arg_start = 2
     if isinstance(p[2], str):
@@ -208,7 +214,7 @@ def p_command_cylinder(p):
                | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
                | CYLINDER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
                | CYLINDER SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {op: p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
     arg_start = 2
     if isinstance(p[2],str):
         cmd['constants'] = p[2]
@@ -218,7 +224,7 @@ def p_command_cylinder(p):
     if len(p) == 9 and isinstance(p[8],str):
         cmd['cs'] = p[8]
     cmd['args'] = p[arg_start:arg_start+5]
-    comnands.append(cmd)
+    commands.append(cmd)
 
 def p_command_cone(p):
     #            CONE x      y      z      radius height
@@ -226,7 +232,7 @@ def p_command_cone(p):
                | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER
                | CONE NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
                | CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
-    cmd = {op: p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
     arg_start = 2
     if isinstance(p[2],str):
         cmd['constants'] = p[2]
@@ -236,9 +242,27 @@ def p_command_cone(p):
     if len(p) == 9 and isinstance(p[8],str):
         cmd['cs'] = p[8]
     cmd['args'] = p[arg_start:arg_start+5]
-    comnands.append(cmd)
+    commands.append(cmd)
 
-        
+
+def p_command_truncated_cone(p):
+    #            TRUNCATED_CONE x      y      z      radius1radius2height
+    """command : TRUNCATED_CONE NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
+               | TRUNCATED_CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER
+               | TRUNCATED_CONE NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL
+               | TRUNCATED_CONE SYMBOL NUMBER NUMBER NUMBER NUMBER NUMBER NUMBER SYMBOL"""
+    cmd = {'op': p[1], 'constants' : None, 'cs' : None, 'args':[]}
+    arg_start = 2
+    if isinstance(p[2],str):
+        cmd['constants'] = p[2]
+        arg_start = 3
+    if len(p) == 9 and isinstance(p[8],str):
+        cmd['cs'] = p[7]
+    if len(p) == 10 and isinstance(p[9],str):
+        cmd['cs'] = p[9]
+    cmd['args'] = p[arg_start:arg_start+6]
+    commands.append(cmd)
+    
 def p_command_sphere(p):
     """command : SPHERE NUMBER NUMBER NUMBER NUMBER
                | SPHERE SYMBOL NUMBER NUMBER NUMBER NUMBER
