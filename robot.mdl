@@ -1,6 +1,61 @@
 push
-//rotate x 90
-rotate y 90
-truncated_cone 100 100 0 100 50 20 
+sphere 250 250 0 200
+push
+rotate x -60
+rotate y 45
+move 120 930 0 
+cone 400 400 0 100 180
+pop
+push
+rotate x -60
+rotate y -45
+move 80 390 0
+cone 100 100 0 100 180
+pop
+push
+rotate x -90
+move 100 -180 0
+rotate y -10
+truncated_cone 0 0 0 40 75 290
+pop
+push
+rotate x -90
+move 420 -180 0
+rotate y 10
+truncated_cone 0 0 0 40 75 290
+pop
+push
+rotate y -40
+move 400 -150 0
+cylinder 120 300 200 80 10
+pop
+push
+rotate y 40
+move -170 0 150
+cylinder 100 300 200 60 10
+cylinder 320 300 200 60 10
+pop
+push
+tetrahedron 270 250 250 -20
+pop
+//whiskers
+push
+rotate z -10
+move -40 40 0
+box 120 200 200 70 5 5
+box 350 210 200 50 5 5
+pop
+push
+rotate z 10
+move 55 -15 0
+box 100 170 200 50 5 5
+box 310 170 200 70 5 5
+pop
+push
+rotate y 20
+pyramid 140 500 200 -100 200
+pop
+push
+box 390 500 250 5 90 5
 display
 save robot.png

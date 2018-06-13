@@ -8,3 +8,4 @@ Shapes: Pyramid, Tetrahedron, Cone, Cylinder, Truncated Cone
 
 Bugs:
  - White line is sometimes seen in cone, cylinder, and truncated cone
+ - holes in cone and cylinder for certain rotations
